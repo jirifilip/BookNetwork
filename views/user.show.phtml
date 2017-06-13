@@ -1,0 +1,34 @@
+<?php include "pageStart.phtml" ?>
+
+<?php include "navbar.phtml" ?>
+
+<div class="row profile-info-top">
+    <img class="user-thumb img-circle center-block img-responsive" width="150" src="http://imgsv.imaging.nikon.com/lineup/lens/zoom/normalzoom/af-s_dx_18-140mmf_35-56g_ed_vr/img/sample/sample1_l.jpg" />
+
+    <h3 class="username-text text-center">
+        <?= $user['username'] ?>
+    </h3>
+    <div class="row profile-info-text">
+        <div class="text-center">
+            <p><?= $bookCount ?> knih</p>
+            <p>3 odběrů</p>
+            <p>4 odběratelů</p>
+        </div>
+    </div>
+</div>
+
+<ul class="nav nav-tabs">
+  <li class="active"><a href="#">Zeď</a></li>
+  <li><a href="#">O mně</a></li>
+  <li><a href="#">Nastavení</a></li>
+</ul>
+
+<div class="container">
+    
+    <div class="row main-wall">
+    </div>
+</div>
+
+
+
+<?php include "pageEnd.phtml" ?>

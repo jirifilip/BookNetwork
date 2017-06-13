@@ -1,0 +1,111 @@
+<?php include "pageStart.phtml" ?>
+
+<?php include "navbar.phtml" ?>
+
+<div class="container container-books">
+
+    
+
+    <nav class="navbar navbar-fixed-top books-configure-view">
+        <div class="container-fluid">
+            
+            <div class="navbar-header">
+                <a name="config-view" class="navbar-brand">
+                    <span class="books-table-btn glyphicon glyphicon-th-list nav-icon"></span>
+                    <span class="books-thumb-btn glyphicon glyphicon-th-large nav-icon"></span>
+                </a>
+            </div>
+            <ul class="nav navbar-nav navbar-right">
+                <?php if (Session::exists("logged_in")): ?>
+                    <a href="knihy/vytvorit" class="navbar-brand">Nová kniha</a>
+                <?php endif ?>
+            </ul>
+        </div>
+    </nav>
+
+
+
+
+    <div class="card-deck thumbnail-book-view">
+        <?php foreach($books as $book): ?>
+
+            <?php $isAuthor = $book['author_id'] == @Session::get('id') ?>
+
+            <div class="card">
+                <a href="knihy/<?= $book['id'] ?>/<?= $book['url'] ?>">
+                    <img 
+                        src="<?= strlen($book['picture_url']) > 0? $book['picture_url'] : 'http://resources.macmillanusa.com/jackets/186W/0000000000001.jpg' ?>"
+                        class="thumbnail-book-img img-responsive img-rounded center-block">
+                </a>
+                <div class="card-block">
+                    <h4 class="card-title text-center">
+                        <?= $book['name'] ?>
+                    </h4>
+                    <p class="card-text text-justify">
+                        <?= substr($book['description'], 0, 120) . "..." ?>
+                    </p>
+                </div>
+                <div class="card-footer">
+                    <small class="text-muted">Last updated 3 mins ago</small>
+                    <?php if ($isAuthor): ?>
+                        <small class="text-muted">
+                            <a class="btn btn-primary btn-sm" href="knihy/<?= $book['id'] ?>/<?= $book['url'] ?>/upravit">
+                                upravit
+                            </a>
+
+                            <form
+                                method="POST"
+                                action="knihy/<?= $book['id'] ?>/<?= $book['url'] ?>/smazat">
+                                <button class="btn btn-primary btn-sm">smazat</button>
+                            </form>
+                        </small>
+                    <?php endif ?>
+                </div>
+            </div>
+        <?php endforeach ?>
+        
+    </div>
+
+
+    
+    <div class="table-book-view">
+        <table class="table table-hover table-inverse">
+            <thead>
+                <tr>
+                    <th>Thumb</th>
+                    <th>Název</th>
+                    <th>Autor</th>
+                    <th>Hlasů</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach($books as $book): ?>
+                <tr>
+                    <td>
+                        <a href="knihy/<?= $book['id'] ?>/<?= $book['url'] ?>">
+                            <img
+                                src="<?= strlen($book['picture_url']) > 0? $book['picture_url'] : 'http://resources.macmillanusa.com/jackets/186W/0000000000001.jpg' ?>"
+                                class = "img-responsive img-rounded"
+                                width="50">
+                        </a>
+                    </td>
+                    <td>
+                        <?= $book['name'] ?>
+                    </td>
+                    <td>
+                        <?= $book['author']['username'] ?>
+                    </td>
+                    <td>
+                        <?= $book['upvotes'] ?>
+                    </td>
+                </tr>
+                <?php endforeach ?>
+            </tbody>
+        </table>
+    </div>
+
+</div>
+
+
+
+<?php include "pageEnd.phtml" ?>

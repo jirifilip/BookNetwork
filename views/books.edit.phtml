@@ -1,0 +1,54 @@
+<?php include "pageStart.phtml" ?>
+
+<?php include "navbar.phtml" ?>
+
+<div class="container container-books">
+
+    <form method="POST">
+    	
+        <input type="hidden" name="id" class="form-control" value="<?= htmlspecialchars($book['id']) ?>"/>
+
+        <div>
+            <label class="control-label">Název knihy:</label>
+            <input type="text" name="name" class="form-control" value="<?= htmlspecialchars($book['name']) ?>"/>
+        </div>
+
+        <div>
+            <label class="control-label">Url obrázku:</label>
+            <input type="text" name="picture_url" class="form-control" value="<?= htmlspecialchars($book['picture_url']) ?>"/>
+        </div>
+
+        <div>   
+            <label class="control-label">Popis knihy:</label>
+            <textarea name="description" class="form-control">
+                <?= $book['description'] ?>
+            </textarea>
+        </div>
+
+        </br>
+
+        <button class="btn btn-primary center-block form-control">
+            Upravit
+        </button>
+
+    </form>
+
+
+
+    <script src="//tinymce.cachefly.net/4.0/tinymce.min.js"></script>
+    <script>
+            tinymce.init({
+                    selector: "textarea[name=description]",
+                    plugins: [
+                            "advlist autolink lists link image charmap print preview anchor",
+                            "searchreplace visualblocks code fullscreen",
+                    ],
+                    toolbar: "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent",
+                    entities: "160,nbsp",
+                    entity_encoding: "named",
+                    entity_encoding: "raw"
+            });
+    </script>
+</div>
+
+<?php include "pageEnd.phtml" ?>

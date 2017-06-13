@@ -1,0 +1,25 @@
+<?php include "pageStart.phtml" ?>
+
+<?php include "navbar.phtml" ?>
+
+<div class="container">
+    <h2>Povídky</h2>
+
+    <div class="jumbotron">
+        <div>
+            <a href="povidky/nova">Napsat novou</a>
+        </div>
+        <?php foreach ($stories as $story): ?>
+            <h3>
+                <a href="povidky/<?= $story['id'] ?>/<?= $story['url'] ?>">
+                    <?= $story['name'] ?>
+                </a>
+            </h3>
+        <?php endforeach ?> 
+    </div>
+
+</div>
+
+
+
+<?php include "pageEnd.phtml" ?>

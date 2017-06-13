@@ -1,0 +1,101 @@
+.username-text {
+    color: white;
+    font-weight: bold;
+}
+
+.profile-info-top {
+    background-color: black;
+    min-height: 300px;
+}
+
+.user-thumb {
+    margin-top: 80px;
+}
+
+.thumbnail-book-img {
+    max-height: 200px;
+}
+
+.profile-info-text {
+    color: white;
+    margin-bottom: 20px;
+}
+
+.profile-navbar {
+    min-height: 70px;
+}
+
+.main-wall {
+    margin-top: 40px;
+}
+
+.wall-card {
+    border: 1px solid black;
+    border-radius: 20px;
+}
+
+.nav-icon {
+    margin-right: 5px;
+}
+
+.books-main {
+    margin-top: 60px;
+}
+
+.story-show-second-nav {
+    margin-top: 50px;
+    background-color: greenyellow;
+    color: black;
+}
+
+.story-show-second-nav div a {
+    color: black;
+    font-weight: bold;
+}
+
+
+.two-columns{
+    -webkit-column-gap: 20px;
+       -moz-column-gap: 20px;
+            column-gap: 20px;
+    -webkit-column-count: 2;
+       -moz-column-count: 2;
+            column-count: 2;
+}
+
+.book-text p {
+    font-size: 1.5em;
+}
+
+.chapter-container {
+    margin: 60px 70px 60px;
+}
+
+.container-books {
+    margin-top: 120px;
+}
+
+.display-none {
+    display: none;
+}
+
+.progress-bar-chapter {
+    background-color: #ddff00;
+    min-height: 54px;    
+}
+
+.card {
+    max-width: 20rem;
+    display: inline-block;
+    margin-right: 2em;
+    margin-bottom: 2em;
+
+}
+
+.books-configure-view {
+    margin-top: 60px;
+}
+
+
+
+

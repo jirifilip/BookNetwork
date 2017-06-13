@@ -1,0 +1,49 @@
+<?php include "pageStart.phtml" ?>
+
+<?php include "navbar.phtml" ?>
+
+<div class="container">
+    <h2><?= $book['name'] ?></h2>
+
+    <div>
+        <?= $book['description'] ?>
+    </div>
+
+    <div>
+        <h3>Kapitoly</h3>
+
+        <?php $isAuthor = $book['author_id'] == @Session::get('id') ?>
+
+        <?php if ($isAuthor): ?>        
+            <h4>
+                <a href="povidky/nova">
+                   <span class="glyphicon glyphicon-plus nav-icon"></span>
+                   přidat
+                </a>
+            </h4>
+        <?php endif ?>
+
+        <?php foreach ($stories as $story): ?>
+            <h4>
+                <a href="povidky/<?= $story['id'] ?>/<?= $story['url'] ?>">
+                    <?= $story['name'] ?>
+                </a>
+            </h4>
+            
+            <?php if ($isAuthor): ?>
+                <a href="povidky/<?= $story['id'] ?>/<?= $story['url'] ?>/upravit">
+                    Upravit
+                </a>
+                <a href="povidky/<?= $story['id'] ?>/<?= $story['url'] ?>/upravit">
+                    Smazat
+                </a>
+            <?php endif ?>
+
+        <?php endforeach ?>
+    </div>
+
+</div>
+
+
+
+<?php include "pageEnd.phtml" ?>

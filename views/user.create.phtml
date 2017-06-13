@@ -1,0 +1,24 @@
+<?php include "pageStart.phtml" ?>
+
+<?php include "navbar.phtml" ?>
+
+<div class="container">
+
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+
+    <?= @Post::get('username') ?>
+
+    <form method="POST">
+        <input type="text" name="username" />
+        <button>Potvrdit</button>
+    </form>
+
+</div>
+
+
+
+<?php include "pageEnd.phtml" ?>

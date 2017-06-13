@@ -1,0 +1,29 @@
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container-fluid moss-green-bg">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="#">Knihomol</a>
+        </div>
+        <ul class="nav navbar-nav">
+            <li class="<?= ViewUtils::activeClass('active', 'zed') ?>"><a href="zed">Zeď</a></li>
+            <li class="<?= ViewUtils::activeClass('active', 'knihy') ?>"><a href="knihy">Knihy</a></li>
+            <li class="<?= ViewUtils::activeClass('active', 'uzivatele') ?>"><a href="uzivatele">Uživatelé</a></li>
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+            <?php if (Session::exists('fb_id')): ?>
+                <li>
+                    <a href="zed"><span class="glyphicon glyphicon-user nav-icon"></span>
+                        Přihlášen jako <?= Session::get('username') ?> 
+                    </a>
+                </li>
+                <li>
+                    <a href="login/odhlasit-se"><span class="glyphicon glyphicon-user nav-icon"></span>
+                        Odhlásit se
+                    </a>
+                </li>
+            <?php else: ?>
+                <li><a href="#"><span class="glyphicon glyphicon-user nav-icon"></span>Registrovat se</a></li>
+                <li><a href="login"><span class="glyphicon glyphicon-log-in nav-icon"></span>Přihlásit</a></li>
+            <?php endif ?>
+        </ul>
+    </div>
+</nav>

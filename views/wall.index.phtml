@@ -1,0 +1,42 @@
+<?php include "pageStart.phtml" ?>
+
+<?php include "navbar.phtml" ?>
+
+<div class="row profile-info-top">
+    <img
+        class="user-thumb img-circle center-block img-responsive"
+        width="40"
+        src="<?= $profile['picture_url'] ?>" />
+
+    <h3 class="username-text text-center">
+        <?= $profile['username'] ?>
+    </h3>
+    <div class="row profile-info-text">
+        <div class="text-center">
+            <p>
+                <a href="knihy/<?= $profile['username'] ?>">
+                    <?= count($profile['books']) ?> knih
+                </a>
+            </p>
+            <p><?= count($profile["subs"]) ?> odběrů</p>
+        </div>
+    </div>
+</div>
+
+<ul class="nav nav-tabs">
+  <li class="active"><a href="#">Zeď</a></li>
+  <li><a href="#">O mně</a></li>
+  <li><a href="#">Nastavení</a></li>
+</ul>
+
+<div class="container">
+    <div class="row main-wall">
+    </div>
+    <div class="row description-wall">
+        <?= $profile['profile_desc'] ?>
+    </div>
+</div>
+
+
+
+<?php include "pageEnd.phtml" ?>

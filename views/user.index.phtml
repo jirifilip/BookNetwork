@@ -1,0 +1,44 @@
+<?php include "pageStart.phtml" ?>
+
+<?php include "navbar.phtml" ?>
+
+<div class="container container-books">
+
+    <table class="table table-hover table-inverse">
+        <thead>
+            <tr>
+                <th>Profilový obrázek</th>
+                <th>Username</th>
+                <th>Odběrů</th>
+                <th>Odběratelů</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php foreach($users as $user): ?>
+            <tr>
+                <td>
+                    <a href="uzivatele/<?= $user['username'] ?>">
+                        <img src="http://imgsv.imaging.nikon.com/lineup/lens/zoom/normalzoom/af-s_dx_18-140mmf_35-56g_ed_vr/img/sample/sample1_l.jpg"
+                        class = "img-responsive img-rounded"
+                        width="50">
+                    </a>
+                </td>
+                <td>
+                    <?= $user['username'] ?>
+                </td>
+                <td>
+                    <?= 1 ?>
+                </td>
+                <td>
+                    <?= 3 ?>
+                </td>
+            </tr>
+            <?php endforeach ?>
+        </tbody>
+    </table>
+
+</div>
+
+
+
+<?php include "pageEnd.phtml" ?>

@@ -1,0 +1,38 @@
+<?php include "pageStart.phtml" ?>
+
+<?php include "navbar.phtml" ?>
+
+<div class="container container-books">
+
+
+
+    <table class="table table-hover table-inverse">
+        <thead>
+            <tr>
+                <th>Hlasů</th>
+                <th>Autor</th>
+                <th>Text</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php foreach($comments as $comment): ?>
+            <tr>
+                <td>
+                    <?= $comment['upvotes'] ?>
+                </td>
+                <td>
+                    <?= $comment['user_id'] ?>
+                </td>
+                <td>
+                    <?= $comment["text"] ?>
+                </td>
+            </tr>
+            <?php endforeach ?>
+        </tbody>
+    </table>
+
+</div>
+
+
+
+<?php include "pageEnd.phtml" ?>
