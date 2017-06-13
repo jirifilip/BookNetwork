@@ -1,0 +1,46 @@
+<?php include "pageStart.phtml" ?>
+
+<?php include "navbar.phtml" ?>
+
+<div class="container container-books">
+
+    <div class="btn-group">
+        <?php foreach ($genres as $genre): ?>
+            <?php if (!empty($genre['genre_name'])): ?>
+                <form class="inline" method="POST" action="zanr/smazat">
+                    <input type="hidden" name="id" value="<?= $genre['book_is_id'] ?>"/> 
+                    
+                    <button class="btn btn-info">
+                        <?= $genre['genre_name'] ?>
+                    </button>
+                </form>
+            <?php endif ?>
+        <?php endforeach ?>
+    </div>
+
+    <form method="POST" id="genre_form">
+
+        <input type="hidden" name="book_id" value="<?= $genre['book_id'] ?>"/>
+
+        <select class="form-control" name="genre" form="genre_form">
+            <?php foreach ($genreList as $genre): ?>
+                <option value="<?= $genre['id'] ?>">
+                    <?= $genre['name'] ?>
+                </option>
+            <?php endforeach ?>
+        </select>
+
+        <br/>
+
+        <button class="btn btn-primary center-block form-control">
+            Přidat
+        </button>
+    </form>
+
+    
+
+</div>
+
+    
+
+<?php include "pageEnd.phtml" ?>

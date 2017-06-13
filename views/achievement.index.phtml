@@ -1,0 +1,46 @@
+<?php include "pageStart.phtml" ?>
+
+<?php include "navbar.phtml" ?>
+
+<div class="container container-books">
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th class="text-center">Název</th>
+                <th class="text-center">Popis</th>
+                <th class="text-center">Postup</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php foreach($achvs as $i => $achv): ?>
+            <tr class="text-center">
+                <td>
+                    <h3><strong><?= $achv['achievement_name'] ?></strong></h3>
+                </td>
+                <td>
+                    <?= $achv['achievement_desc'] ?>
+                </td>
+                <td>
+                    <div class="progress">
+                        <div class="progress-bar progress-bar-<?= $counts[$i]/$achv['progress'] * 100 >= 100 ? 'success' : 'danger' ?>" role="progressbar" aria-valuenow="70"
+                            aria-valuemin="<?= $counts[$i] ?>" aria-valuemax="<?= $achv['progress'] ?>"
+                            style="width:<?= $counts[$i]/$achv['progress'] * 100 >= 100 ? 100 : $counts[$i]/$achv['progress'] * 100 ?>%">
+                            <span class="sr-only">70% Complete</span>
+                        </div>
+                    </div> 
+                    <form class="center-block" method="POST" action="odznak/vyzvednout">
+                        <input type="hidden" value="<?= $achv['achievement_id'] ?>" name="achievement_id"/>
+                        <button class="center-block form-control btn btn-info btn-sm">Vyzvednout</button>
+                    </form>
+                </td>
+            </tr>
+            <?php endforeach ?>
+        </tbody>
+    </table>
+
+</div>
+
+
+
+<?php include "pageEnd.phtml" ?>

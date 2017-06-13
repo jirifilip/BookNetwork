@@ -9,18 +9,19 @@ class HomeController extends Controller {
             "title" => "Home",
             "heading" => "Homepage",
         ));
-        
-        
+
     }
     
     public function index() {
         $data = $this->getData();
 
-        $this->render('wall.index', $data);
+        $this->render('home.index', $data);
+
+        if (Session::exists("id")) {
+            URLUtils::redirect('login');
+        } else {
+            URLUtils::redirect('zed');
+        }
+        
     }
-
-    public function show() {
-
-    }
-
 }

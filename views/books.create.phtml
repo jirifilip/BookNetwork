@@ -4,24 +4,38 @@
 
 <div class="container container-books">
 
+    <?php $errors = empty($errors) ? [] : $errors ?>
+
     <form method="POST">
     	
         <div>
             <label class="control-label">Název knihy:</label>
             <input type="text" name="name" class="form-control"/>
+            <?= ViewUtils::ifErrorRender("name", $errors) ?>
         </div>
 
         <div>
             <label class="control-label">Url obrázku:</label>
             <input type="text" name="picture_url" class="form-control"/>
+            <?= ViewUtils::ifErrorRender("picture_url", $errors) ?>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label">Přístup pro:</label>
+            <select name="access_everyone" class="form-control">
+                <option value="1" class="text-center">všechny</option>
+                <option value="0" class="text-center">jen registrované</option>
+            </select>
+            <?= ViewUtils::ifErrorRender("access_everyone", $errors) ?>
         </div>
 
         <div>   
             <label class="control-label">Popis knihy:</label>
             <textarea name="description" class="form-control"></textarea>
+            <?= ViewUtils::ifErrorRender("description", $errors) ?>
         </div>
 
-        </br>
+        <br/>
 
         <button class="btn btn-primary center-block form-control">
             Vytvořit
@@ -39,8 +53,10 @@
                             "advlist autolink lists link image charmap print preview anchor",
                             "searchreplace visualblocks code fullscreen",
                     ],
-                    toolbar: "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent",
+                    toolbar: "undo redo | alignleft aligncenter alignright alignjustify",
                     entities: "160,nbsp",
+                    valid_elements: "div, br, p, i, strong",
+                    invalid_elements: "script, object, embed, link, a, style, , iframe, input, form, b, i, strong, small",
                     entity_encoding: "named",
                     entity_encoding: "raw"
             });

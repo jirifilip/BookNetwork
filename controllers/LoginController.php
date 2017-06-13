@@ -4,18 +4,22 @@ class LoginController extends Controller {
 
     private $fb;
     private $user;
+    private $friend;
 
     function __construct() {
         $this->fb = Fb::get();
 
         $this->user = new User();
+        $this->friend = new Friend();
+
+        $this->pushGuard( new AlreadyLoggedInGuard );
     }
 
     private function getFbUrl() {
         $helper = $this->fb->getRedirectLoginHelper();
 
         $permissions = ['email']; // Optional permissions
-        $loginUrl = $helper->getLoginUrl('http://localhost/prace/login/create', $permissions);
+        $loginUrl = $helper->getLoginUrl(FB_LOGIN_URL, $permissions);
 
         return $loginUrl;
     }
@@ -25,6 +29,7 @@ class LoginController extends Controller {
         $url = $this->getFbUrl();
 
         $this->render("login.index", [
+            "title" => "Login",
             "fbUrl" => $url
         ]); 
 
@@ -45,55 +50,85 @@ class LoginController extends Controller {
             $this->render('user.create', [
                 "title" => "Vytvoření profilu"
             ]);
+            exit();
 
         }
         else if (!Session::exists('userInfo')) {
             UrlUtils::redirect('knihy');
         }
         else {
+            $friends = $this->friend->getFriendsId($user['id']);
+
             Session::set('username', $user['username']);
             Session::set('email', $user['email']);
             Session::set('fb_id', $user['fb_id']);
             Session::set('id', $user['id']);
             Session::set('logged_in', true);
-            UrlUtils::redirect('/prace/zed');
+            Session::set('admin', $user['admin']);
+            Session::set('friends', $friends);
+            UrlUtils::redirect('/'.BASE_URL.'/zed');
         }
     }
 
     public function store() {
+        
+        if (!Session::exists("userInfo")) {
+            $this->render('error', [
+                "title" => "Chyba",
+                "error" => "K této akci musíte být registrovaní"
+            ]);
+            exit();
+        }
+
         $userInfo = Session::get("userInfo");
         
         $fb_id = $userInfo['id'];
         $email = $userInfo['email'];
         $picture = $userInfo['picture']['url'];
 
-        // doplnit validaci a zkontrolování, jestli se už takhle nějaký
-        // uživatel nejmenuje
-        $username = Post::get("username");
+        $username = @Post::get("username");
+
+        if (!preg_match("/[A-Za-z0-9]{4,}/", $username)) {
+            $this->render('user.create', [
+                "title" => "Vytvoření profilu",
+                "errors" => ["username" => "Špatně zadané uživatelské jméno. Minimálně 4 znaky. Jen písmena a čísla."]
+            ]);
+            exit();
+        }
+
+        $user = $this->user->where("username", "=", $username)->apply();
+        if (!empty($user)) {
+            $this->render('user.create', [
+                "title" => "Vytvoření profilu",
+                "errors" => ["username" => "Uživatel s takovýmto jménem již existuje"]
+            ]);
+            exit();
+        }
     
-        $this->user->insert($fb_id, $username, $email, $picture);
+        $this->user->insertInto($fb_id, $username, $email, $picture);
 
         $user = $this->user->where("fb_id", "=", $fb_id)->apply();
+
+        $friends = $this->friend->getFriendsId($user['id']);
 
         Session::set('username', $user['username']);
         Session::set('email', $user['email']);
         Session::set('fb_id', $user['fb_id']);
         Session::set('id', $user['id']);
+        Session::set('admin', $user['admin']);
         Session::set('logged_in', true);
+        Session::set('friends', $friends);
 
-        UrlUtils::redirect('/prace/zed');
 
-    }
+        UrlUtils::redirect('/'.BASE_URL.'/zed');
 
-    public function edit() {
-        echo "LoginController edit method"; 
     }
 
     public function destroy() {
         if (Session::exists('id')) {
             Session::destroy();
         }
-        UrlUtils::redirect('/prace');
+        UrlUtils::redirect("/".BASE_URL.'/knihy');
     }
 
     private function fbCallback() {

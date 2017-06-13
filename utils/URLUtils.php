@@ -24,9 +24,9 @@ class URLUtils {
     static function localhostSpecificURL() {
         $urlArray = self::parseURL();
         $index = self::domainIndex();
-        $indexToSlice = -count($urlArray) + 2 + $index;
+        $indexToSlice = -count($urlArray) + 3 + $index;
         $finalArray = array_slice( $urlArray, $indexToSlice);
-
+        //die(var_dump($finalArray));
         return $finalArray;
     }
 
@@ -64,6 +64,10 @@ class URLUtils {
         }
 
         return $text;
+    }
+
+    static public function previousPage() {
+        self::redirect($_SERVER['HTTP_REFERER']);
     }
 
 }

@@ -2,20 +2,39 @@
 
 <?php include "navbar.phtml" ?>
 
+<?php $errors = empty($errors) ? [] : $errors ?>
+
 <div class="container container-books">
 
+
     <form method="POST">
-    	
+        <?php if (Post::exists('lock') == true): ?>
+            <div class="hide">    
+        <?php endif ?>	
+
         <input type="hidden" name="id" class="form-control" value="<?= htmlspecialchars($book['id']) ?>"/>
 
         <div>
             <label class="control-label">Název knihy:</label>
             <input type="text" name="name" class="form-control" value="<?= htmlspecialchars($book['name']) ?>"/>
+            <?= ViewUtils::ifErrorRender("name", $errors) ?>
         </div>
+
+        <div class="form-group">
+            <label class="control-label">Přístup pro:</label>
+            <select name="access_everyone" class="form-control">
+                <option value="1" class="text-center">všechny</option>
+                <option value="0" class="text-center">jen registrované</option>
+            </select>
+            <?= ViewUtils::ifErrorRender("access_everyone", $errors) ?>
+        </div>
+
+        <input type="hidden" value="<?= $book['updated_at'] ?>" name="updated_at"/>
 
         <div>
             <label class="control-label">Url obrázku:</label>
             <input type="text" name="picture_url" class="form-control" value="<?= htmlspecialchars($book['picture_url']) ?>"/>
+            <?= ViewUtils::ifErrorRender("picture_url", $errors) ?>
         </div>
 
         <div>   
@@ -23,16 +42,37 @@
             <textarea name="description" class="form-control">
                 <?= $book['description'] ?>
             </textarea>
+            <?= ViewUtils::ifErrorRender("description", $errors) ?>
         </div>
 
-        </br>
+        <br/>
+
+        <?php if (Post::exists('lock') == true): ?>
+            </div>
+            <h2 class="text-center">Knihu mezitím někdo upravil. Přejete si změny přepsat?</h2>    
+            
+            <h3 class="text-center well <?= $oldBook['name'] == $book['name'] ? '' : 'text-danger' ?>"><?= $oldBook['name'] ?></h3>
+
+            <p class="text-center well <?= $oldBook['picture_url'] == $book['picture_url'] ? '' : 'text-danger' ?>">
+                <?= $oldBook['picture_url'] ?>
+            </p>
+
+            <div class="well <?= $oldBook['description'] == $book['description'] ? '' : 'text-danger' ?>">
+                <?= $oldBook['description'] ?>
+            </div>
+
+            <a href="knihy" class="form-control btn btn-primary">Ne</a>
+        <?php endif ?>	
 
         <button class="btn btn-primary center-block form-control">
-            Upravit
+            <?php if (Post::exists('lock') == true): ?>
+                Ano
+            <?php else: ?>
+                Upravit
+            <?php endif ?>
         </button>
 
     </form>
-
 
 
     <script src="//tinymce.cachefly.net/4.0/tinymce.min.js"></script>
@@ -43,8 +83,10 @@
                             "advlist autolink lists link image charmap print preview anchor",
                             "searchreplace visualblocks code fullscreen",
                     ],
-                    toolbar: "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent",
+                    toolbar: "undo redo | alignleft aligncenter alignright alignjustify",
                     entities: "160,nbsp",
+                    // valid_elements: "div, br, p, i, strong",
+                    invalid_elements: "script, object, embed, link, a, style, iframe, input, form, b, i, strong, small",
                     entity_encoding: "named",
                     entity_encoding: "raw"
             });

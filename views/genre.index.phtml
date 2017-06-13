@@ -1,0 +1,82 @@
+<?php include "pageStart.phtml" ?>
+
+<?php include "navbar.phtml" ?>
+
+<div class="container container-books">
+
+    
+
+    <nav class="navbar navbar-fixed-top books-configure-view">
+        <div class="container-fluid">
+            
+            <div class="navbar-header">
+            </div>
+            <ul class="nav navbar-nav navbar-right">
+                <?php if (Session::exists("logged_in")): ?>
+                    <a href="knihy/vytvorit" class="navbar-brand">Nová kniha</a>
+                <?php endif ?>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="text-center">
+        <div class="btn-group">
+            <?php foreach ($genres as $genre): ?>
+                <?php if (!empty($genre['name'])): ?>
+                    <div class="btn btn-info filter-button" data-genre=" <?= URLUtils::slugify($genre['name']) ?>">
+                        <?= $genre['name'] ?>
+                    </div>
+                <?php endif ?>
+            <?php endforeach ?>
+        </div>
+    </div>
+
+    <div class="table-book-view">
+        <div class="text-center row top-down-margin <?= URLUtils::slugify($book['genre_name']) ?>">
+            <div class="col-xs-3">
+                <strong>Thumb</strong>                        
+            </div>
+            <div class="col-xs-3">
+                <strong>Název</strong> 
+            </div>
+            <div class="col-xs-3">
+                <strong>Žánr</strong> 
+            </div>
+            <div class="col-xs-3">
+                <strong>Upvotes</strong> 
+            </div>
+        </div>
+
+        <?php foreach($books as $book): ?>
+            <?php if (!empty($book['genre_name'])): ?>
+                <div class="text-center row table-row top-down-margin <?= URLUtils::slugify($book['genre_name']) ?>">
+                    <div class="col-xs-3 text-center">
+                        <a href="knihy/<?= $book['book_id'] ?>/<?= $book['book_url'] ?>">
+                            <img
+                                src="<?= strlen($book['book_picture_url']) > 0? $book['book_picture_url'] : 'http://resources.macmillanusa.com/jackets/186W/0000000000001.jpg' ?>"
+                                class = "center-block img-responsive img-rounded"
+                                width="50"
+                                alt="<?= $book['book_name'] ?> - obrázek">
+                        </a>
+                    </div>
+                    <div class="col-xs-3 text-center">
+                        <?= $book['book_name'] ?>
+                    </div>
+                    <div class="col-xs-3 text-center">
+                        <?= $book['genre_name'] ?>
+                    </div>
+                    <div class="col-xs-3 text-center">
+                        <?= $book['book_upvotes'] ?>
+                    </div>
+                </div>
+            <?php endif ?>
+        <?php endforeach ?>
+
+    </div>
+
+</div>
+
+<script src="public/js/genres.js"></script>
+
+
+<?php include "pageEnd.phtml" ?>

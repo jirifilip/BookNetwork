@@ -11,11 +11,17 @@ class Session {
     }
 
     public static function destroy() {
-        session_destroy();
+        @session_destroy();
     }
 
     public static function get($key) {
         return $_SESSION[$key];
+    }
+
+    public static function safeGet($key) {
+        if (self::exists($key)) {
+            return $_SESSION[$key];
+        }
     }
 
     public static function set($key, $value) {

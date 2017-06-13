@@ -2,34 +2,68 @@
 
 <?php include "navbar.phtml" ?>
 
+<?php $errors = empty($errors) ? [] : $errors ?>
+
 <div class="container container-books">
 
+    <?php if (!empty($comments)): ?>
+    <?php foreach($comments as $comment): ?>
+        <div class="row">
+            <div class="col-xs-10">
+                <div class="media top-down-margin">
+                    <div class="media-left">
+                        <img src="<?= $comment['picture_url'] ?>" alt="Profilov˝ obr·zek" class="media-object" style="width:60px">
+                    </div>
+                    <div class="media-body">
+                        <h4 class="media-heading">
+                            <?= $comment['user_id'] ?>
+                            <small><i><?= $comment['timestamp'] ?></i></small>
+                        </h4>
+                        <p><?= $comment['text'] ?></p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-2">
+                <div class="block text-center">
+                    <div class="magin-right"><?= $comment['upvotes'] ?></div>
+                    <div class="btn-group">
+                        <form class="inline" method="POST" action="upvote/do">
+                            <input type="hidden" value="<?= $comment['id'] ?>" name="id"/>
+                            <input type="hidden" value="1" name="vote"/>
+                            <input type="hidden" value="comment" name="type"/>
 
+                            <button class="btn btn-sm btn-success">
+                                <small><span class="glyphicon glyphicon-plus"></span></small>
+                            </button>
+                        </form>
 
-    <table class="table table-hover table-inverse">
-        <thead>
-            <tr>
-                <th>Hlas≈Ø</th>
-                <th>Autor</th>
-                <th>Text</th>
-            </tr>
-        </thead>
-        <tbody>
-            <?php foreach($comments as $comment): ?>
-            <tr>
-                <td>
-                    <?= $comment['upvotes'] ?>
-                </td>
-                <td>
-                    <?= $comment['user_id'] ?>
-                </td>
-                <td>
-                    <?= $comment["text"] ?>
-                </td>
-            </tr>
-            <?php endforeach ?>
-        </tbody>
-    </table>
+                        <form class="inline" method="POST" action="upvote/do">
+                            <input type="hidden" value="<?= $comment['id'] ?>" name="id"/>
+                            <input type="hidden" value="-1" name="vote"/>
+                            <input type="hidden" value="comment" name="type"/>
+
+                            <button class="btn btn-sm btn-danger">
+                                <small><span class="glyphicon glyphicon-minus"></span></small>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    <?php endforeach ?>
+    <?php endif ?>
+
+    <?php if (Session::exists("id")): ?>
+        <form method="POST" action="/<?= BASE_URL ?>/komentare/novy">
+            <input type="hidden" name="storyId" value="<?= htmlspecialchars($id) ?>" />
+            <div class="form-group">
+                <label class="control-label">Text koment√°≈ôe:</label>
+                <textarea class="form-control" name="text"><?= isset($text)? htmlspecialchars($text) : "" ?></textarea>
+                <?= ViewUtils::ifErrorRender("text", $errors) ?>
+            </div>
+            <button class="form-control btn btn-primary">Odeslat</button>
+        </form>
+    <?php endif ?>
 
 </div>
 

@@ -8,6 +8,8 @@ class RoutesConfig {
     public static function run() {
         Router::push("", "HomeController@index");
 
+
+        //přepsat
         Router::pushController("povidky", "StoryController", array(
             "create" => "nova",
             "destroy" => "smazat",
@@ -16,8 +18,12 @@ class RoutesConfig {
             "id",
             "url"
         ]);
+        Router::push("povidky", "StoryController@create", ["bookId", "bookName"], "GET", "nova");
+        Router::push("povidky", "StoryController@store", ["bookId", "bookName"], "POST", "nova");
 
-        Router::pushController("zed", "WallController");
+        Router::push("zed", "WallController@index", array());
+        Router::push("zed", "WallController@load", array(), "GET", "upravit");
+        Router::push("zed", "WallController@edit", array(), "POST", "upravit");
 
         Router::pushController("komentare", "CommentController", array(
             "create" => "novy",
@@ -36,16 +42,34 @@ class RoutesConfig {
             "username"
         ]);
 
-        Router::push("profil", "ProfileController@index");
-
-
-        Router::pushController("bla", "BlaController", array(
-            "create" => "vytvorit",
+        Router::pushController("zanr", "GenreController", [
+            "create" => "pridat",
             "destroy" => "smazat",
             "edit" => "upravit"
+        ]);
+
+        Router::pushController("pratele", "FriendController", array(
+            "create" => "pridat",
+            "destroy" => "smazat",
+            "edit" => "potvrdit"
         ), [
-            "id",
-            "url"
+            "username"
+        ]);
+
+        Router::pushController("odznak", "AchievementController", [
+            "create" => "vyzvednout",
+            "destroy" => "smazat",
+            "edit" => "upravit"
+        ]);
+
+        Router::pushController("upvote", "UpvoteController", [
+            "destroy" => "do"
+        ]);
+        
+        Router::pushController("odber", "SubscriptionController", [
+            "create" => "novy",
+            "destroy" => "zrusit",
+            "edit" => "upravit"
         ]);
 
         
@@ -60,8 +84,6 @@ class RoutesConfig {
         ]);
         Router::push("knihy", "BookController@showByAuthor", array("username"), "GET");
 
-        
-
         Router::push("login", "LoginController@index", array());
         Router::push("login", "LoginController@destroy", array(), "GET", "odhlasit-se");
         Router::push("login", "LoginController@loginCallback", array(), "GET", "create\?.+");
@@ -69,10 +91,6 @@ class RoutesConfig {
         Router::push("login", "LoginController@store", array(), "POST", "vytvorit");
 
 
-
-
-        Router::api("upvote", "UpvoteAPI");
-        Router::api("subscription", "SubscriptionAPI");
 
         // Router::log();
 

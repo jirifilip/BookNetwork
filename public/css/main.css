@@ -43,7 +43,7 @@
 }
 
 .story-show-second-nav {
-    margin-top: 50px;
+    /*margin-top: 50px;*/
     background-color: greenyellow;
     color: black;
 }
@@ -53,7 +53,6 @@
     font-weight: bold;
 }
 
-
 .two-columns{
     -webkit-column-gap: 20px;
        -moz-column-gap: 20px;
@@ -61,6 +60,10 @@
     -webkit-column-count: 2;
        -moz-column-count: 2;
             column-count: 2;
+}
+
+.color-black {
+    color: black;
 }
 
 .book-text p {
@@ -72,7 +75,8 @@
 }
 
 .container-books {
-    margin-top: 120px;
+    margin-top: 60px;
+    margin-bottom: 50px;
 }
 
 .display-none {
@@ -97,5 +101,31 @@
 }
 
 
+.inline {
+    display: inline;
+}
 
+.img-book {
+    max-width: 400px;
+}
 
+.block {
+    display: block;
+}
+
+.top-down-margin {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.margin-right {
+    margin-right: 20px;
+}
+
+.margin-left {
+    margin-left: 10px;
+}
+
+.margin-top {
+    margin-top: 10px;
+}

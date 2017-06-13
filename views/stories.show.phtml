@@ -8,15 +8,34 @@
         <div class="container-fluid">
             
             <div class="navbar-header">
-                <a class="navbar-brand" href="">
-                    Název knihy - <?= $story['name'] ?> - Autor
+                <a class="navbar-brand" id="nadpis">
+                    <?= $story['name'] ?>
                 </a>
             </div>
-            <ul class="nav navbar-nav navbar-right">
-                <li><a href="login"><span class="glyphicon glyphicon-heart nav-icon"></span></a></li>
-                 <li><a href="login"><span class="glyphicon glyphicon-circle-arrow-left nav-icon"></span></a></li>
-                  <li><a href="login"><span class="glyphicon glyphicon-circle-arrow-right nav-icon"></span></a></li>
-            </ul>
+            <div class="btn-group inline pull-right margin-top">
+                <div class="inline margin-right">
+                    <?= $story['upvotes'] ?>
+                </div>
+                <form class="inline" method="POST" action="upvote/do">
+                    <input type="hidden" value="<?= $story['id'] ?>" name="id"/>
+                    <input type="hidden" value="1" name="vote"/>
+                    <input type="hidden" value="story" name="type"/>
+
+                    <button class="btn btn-sm btn-success">
+                        <span class="glyphicon glyphicon-plus"></span>
+                    </button>
+                </form>
+
+                <form class="inline" method="POST" action="upvote/do">
+                    <input type="hidden" value="<?= $story['id'] ?>" name="id"/>
+                    <input type="hidden" value="-1" name="vote"/>
+                    <input type="hidden" value="story" name="type"/>
+
+                    <button class="btn btn-sm btn-danger">
+                        <span class="glyphicon glyphicon-minus"></span>
+                    </button>
+                </form>
+            </div>
         </div>
     </nav>
 
@@ -24,13 +43,7 @@
     
 
 
-    <h2><?= $story['name'] ?></h2>
-
-    <div class="chapter-container book-text text-justify">
-        <?= $story['text'] ?>
-        <?= $story['text'] ?>
-        <?= $story['text'] ?>
-        <?= $story['text'] ?>
+    <div class="container-books book-text text-justify">
         <?= $story['text'] ?>
     </div>
 
@@ -50,19 +63,15 @@
                 </a>
             </div>
             <ul class="nav navbar-nav navbar-right">
+                <?php if (true): ?>
+                    <li>
+                        <a href="povidky/<?= $story['id'].'/'.$story['url']?>/upravit">
+                            <span class="glyphicon glyphicon-pencil"></span>
+                        </a>
+                    </li> 
+                <?php endif ?>
                 <li>
-                    <a id="text-config-btn" name="text-config-anchor">
-                        <span data-toggle="modal" data-target="#text-config-modal" class="glyphicon glyphicon-text-height nav-icon"></span>
-                    </a>
-                </li>
-                <li>
-                    <a href="login">
-                            <span class="glyphicon glyphicon-star nav-icon"></span>
-                            <?= $story['upvotes'] ?>
-                    </a>
-                </li>
-                <li>
-                    <a href="login">
+                    <a id="postup">
                         <span class="glyphicon glyphicon glyphicon-arrow-right nav-icon"></span>
                             Postup kapitolou:
                             <span class="chapter-progress">10</span> %

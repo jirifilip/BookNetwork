@@ -1,11 +1,17 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <title>Stránka nebyla nalezena</title>
-    </head>
-    <body>
-        <h1>
-            <?= isset($error)? $error : "Litujeme, ale tato stránka nebyla nalezena" ?>
-        </h1>
-    </body>
-</html>
+<?php $title = "Chyba" ?>
+
+<?php include "pageStart.phtml" ?>
+
+<?php include "navbar.phtml" ?>
+
+<div class="container container-books">
+    <h1 class="text-center">
+        <?= isset($error)? $error : "Litujeme, ale tato stránka nebyla nalezena" ?>
+    </h1>
+    <h2 class="text-center">Chyba</h2>
+</div>
+
+<script src="public/js/genres.js"></script>
+
+
+<?php include "pageEnd.phtml" ?>

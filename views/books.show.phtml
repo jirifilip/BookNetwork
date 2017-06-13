@@ -2,21 +2,101 @@
 
 <?php include "navbar.phtml" ?>
 
-<div class="container">
-    <h2><?= $book['name'] ?></h2>
+<div class="container container-books">
+
+    <div>
+        <?php if ($logged && $isAuthor): ?>
+            <div class="text-center">
+                <form method="GET" action="/<?= BASE_URL ?>/knihy/<?= $book['id'].'/'.$book['url'].'/upravit'?>" class="inline">
+                    <button class="btn btn-info btn-sm">Upravit</button>
+                </form>
+                <form method="POST" action="/<?= BASE_URL ?>/knihy/smazat" class="inline">
+                    <input type="hidden" value="<?= $book['id'] ?>" name="book_id" />
+                    <button class="btn btn-info btn-sm">Smazat</button>
+                </form>
+            </div>
+        <?php endif ?>
+    </div>
+
+    <div>
+        <?php if ($logged && $subbed && !$isAuthor): ?>
+            <form method="POST" action="/<?= BASE_URL ?>/odber/zrusit" class="inline">
+                <input type="hidden" value="<?= $book['id'] ?>" name="bookId" />
+                <button class="btn btn-info btn-sm">Zrušit odběr</button>
+            </form>
+        <?php elseif ($logged && !$isAuthor): ?>
+            <form method="POST" action="/<?= BASE_URL ?>/odber/novy" class="inline">
+                <input type="hidden" value="<?= $book['id'] ?>" name="bookId" />
+                <button class="btn btn-info btn-sm">Odebírat knihu</button>
+            </form>
+        <?php endif ?>
+    </div>
+
+    <h2 class="text-center"><?= $book['name'] ?></h2>
+
+    <div class="block text-center">
+        <div class="magin-right"><?= $book['upvotes'] ?></div>
+        <div class="btn-group">
+            <form class="inline" method="POST" action="upvote/do">
+                <input type="hidden" value="<?= $book['id'] ?>" name="id"/>
+                <input type="hidden" value="1" name="vote"/>
+                <input type="hidden" value="book" name="type"/>
+
+                <button class="btn btn-sm btn-success">
+                    <span class="glyphicon glyphicon-plus"></span>
+                </button>
+            </form>
+
+            <form class="inline" method="POST" action="upvote/do">
+                <input type="hidden" value="<?= $book['id'] ?>" name="id"/>
+                <input type="hidden" value="-1" name="vote"/>
+                <input type="hidden" value="book" name="type"/>
+
+                <button class="btn btn-sm btn-danger">
+                    <span class="glyphicon glyphicon-minus"></span>
+                </button>
+            </form>
+        </div>
+    </div>
+
+
+    <img
+        class="center-block img-responsive top-down-margin img-book"
+        alt="<?= $book['name'] ?> - obrázek"
+        src="<?= strlen($book['picture_url']) > 0? $book['picture_url'] : 'http://resources.macmillanusa.com/jackets/186W/0000000000001.jpg' ?>"/>
+
+    <div class="text-center">
+    <div class="btn-group top-down-margin">
+        <?php if ($book['author_id'] == Session::safeGet('id')): ?>
+            <a
+                href="zanr/<?= $book['id'] ?>/upravit"
+                class="btn btn-success btn-sm">
+                <span class="glyphicon glyphicon-plus nav-icon"></span>
+            </a>
+        <?php endif ?>
+        
+        <?php foreach ($genres as $genre): ?>
+            <?php if(!empty($genre['genre_name'])): ?>
+                <button class="btn btn-info">
+                    <?= $genre['genre_name'] ?>
+                </button>
+            <?php endif ?>
+        <?php endforeach ?>
+    </div>
+    </div>
 
     <div>
         <?= $book['description'] ?>
     </div>
 
-    <div>
+    <div class="text-center">
         <h3>Kapitoly</h3>
-
-        <?php $isAuthor = $book['author_id'] == @Session::get('id') ?>
 
         <?php if ($isAuthor): ?>        
             <h4>
-                <a href="povidky/nova">
+                <a
+                   href="povidky/<?= $book['id'] ?>/<?= $book['url'] ?>/nova"
+                    class="btn btn-info">
                    <span class="glyphicon glyphicon-plus nav-icon"></span>
                    přidat
                 </a>
@@ -25,18 +105,29 @@
 
         <?php foreach ($stories as $story): ?>
             <h4>
-                <a href="povidky/<?= $story['id'] ?>/<?= $story['url'] ?>">
-                    <?= $story['name'] ?>
+                <a
+                    href="povidky/<?= $story['story_id'] ?>/<?= $story['story_url'] ?>">
+                    <?= $story['story_name'] ?>
+                </a>
+                <a class="margin-left" href="komentare/<?= $story['story_id'] ?>/<?= $story['story_url'] ?>">
+                    <span class="glyphicon glyphicon-comment"></span>
                 </a>
             </h4>
             
             <?php if ($isAuthor): ?>
-                <a href="povidky/<?= $story['id'] ?>/<?= $story['url'] ?>/upravit">
-                    Upravit
-                </a>
-                <a href="povidky/<?= $story['id'] ?>/<?= $story['url'] ?>/upravit">
-                    Smazat
-                </a>
+                <div class="btn-group">
+                    <a
+                        href="povidky/<?= $story['story_id'] ?>/<?= $story['story_url'] ?>/upravit"
+                        class="btn btn-sm btn-info">
+                        Upravit
+                    </a>
+                    <form method="POST" action="povidky/smazat" class="inline">
+                         <input type="hidden" name="id" value="<?= $story['story_id'] ?>"/>
+                         <button class="btn btn-sm btn-danger">
+                            Smazat
+                         </button>
+                    </form>
+                </div>
             <?php endif ?>
 
         <?php endforeach ?>

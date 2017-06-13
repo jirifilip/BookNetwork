@@ -12,6 +12,7 @@ $(function() {
         if (
             (clientY < topHoverChapterMenu
             || clientY > window.innerHeight - bottomHoverChapterMenu)
+	    && document.documentElement.scrollTop > 20
         ) {
             $element.fadeIn(400);
         } else {
@@ -24,18 +25,6 @@ $(function() {
         let value = $(this).val();
 
         $(".thumbnail-book-img").css("width", "200%");
-    })
-
-    $(".table-book-view").css("display", "none");
-
-    $(".books-table-btn").click(function() {
-        $(".thumbnail-book-view").css("display", "none")
-        $(".table-book-view").fadeIn();
-    })
-
-    $(".books-thumb-btn").click(function() {
-        $(".thumbnail-book-view").fadeIn();
-        $(".table-book-view").css("display", "none")
     })
 
 

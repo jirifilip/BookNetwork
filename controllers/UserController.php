@@ -4,6 +4,11 @@
 
         function __construct() {
             $this->user = new User();
+            $this->friend = new Friend();
+
+            $this->pushGuard(
+                new NoRouteGuard(["create", "store", "edit", "destroy"])
+            );
         }
     
         public function index() {
@@ -15,31 +20,32 @@
             ]);
         }
 
-        public function create() {
-            echo "UserController create method"; 
-        }
-
         public function show() {
             $username = $this->params['username'];
 
+            if ($username == @Session::get('username')) {
+                UrlUtils::redirect("/".BASE_URL."/zed");
+            }
+
             $user = $this->user->getFullProfile($username);
 
-            $this->render("wall.index", [
+            if (empty(reset($user))) {
+                $this->error([
+                    "title" => "Stránka nenalezena",
+                    "error" => "Takovýto uživatel neexistuje"
+                ]);
+
+                exit();
+            }
+
+            $id = $user['id'];
+
+            $user['friends'] = $this->friend->getFriends($id);
+
+            $this->render("user.show", [
                 "title" => "Uživatel " . $user['username'],
                 "profile" => $user
             ]);
-        }
-
-        public function store() {
-            echo "UserController store method"; 
-        }
-
-        public function edit() {
-            echo "UserController edit method"; 
-        }
-
-        public function destroy() {
-            echo "UserController destroy method"; 
         }
 
     }

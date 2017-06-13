@@ -1,0 +1,61 @@
+<?php include "pageStart.phtml" ?>
+
+<?php include "navbar.phtml" ?>
+
+<div class="container container-books">
+    <div class="panel-group col-xs-12">
+        <?php if (!empty(@$requests[0])): ?>
+            <h2>Žádosti</h2>
+        <?php endif ?>
+        
+        <?php foreach ($requests as $req): ?>
+            <?php if (!empty($req)): ?>
+                <div class="panel panel-default col-xs-3">
+                    <div class="panel-body text-center">
+                        <h4 class="text-center"><?= $req['username'] ?></h4>
+                        <div class="btn-group btn-justified">
+                            <form class="inline" method="POST" action="pratele/<?= $req['friendship_id'] ?>/potvrdit">
+                                <input type="hidden" name="friendship_id" value="<?= $req['friendship_id'] ?>"/>
+                                <button class="btn btn-success">Potvrdit</button>
+                            </form>
+                            <form class="inline" method="POST" action="pratele/smazat">
+                                <input type="hidden" name="friendship_id" value="<?= $req['friendship_id'] ?>"/>
+                                <button class="btn btn-danger">Zamítnout</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            <?php endif ?>
+        <?php endforeach ?>
+    </div>
+
+    <div class="panel-group col-xs-12">
+        <h2>Přátelé</h2>    
+        <?php foreach ($friends as $friend): ?>
+            <?php if (!empty($friend)): ?>
+                <div class="panel panel-default col-xs-3">
+                    <div class="panel-body text-center">
+                        <h4 class="text-center"><?= $friend['username'] ?></h4>
+                        <div class="btn-group btn-justified">
+                            <form class="inline" method="POST" action="pratele/smazat">
+                                <input type="hidden" name="friendship_id" value="<?= $friend['friendship_id'] ?>"/>
+                                <button class="btn btn-danger">Odstranit</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            <?php endif ?>
+        <?php endforeach ?>
+        <?php if (empty($friends)): ?>
+            <div>
+                V současné době nemáte žádné přátele.
+            </div>
+        <?php endif ?>
+    </div>
+
+</div>
+
+<script src="public/js/genres.js"></script>
+
+
+<?php include "pageEnd.phtml" ?>

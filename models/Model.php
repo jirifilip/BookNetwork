@@ -39,7 +39,7 @@ abstract class Model {
     //     return $res;
     // }
 
-    public function apply($withoutDependencies = true) {
+    public function apply($withoutDependencies = true, $asArray = true) {
         $res = $this->whereClause->apply();
         $this->emptyClauses();
 
@@ -211,11 +211,30 @@ abstract class Model {
     }
 
     public function delete(array $where) {
+        if (is_array($where[0])) {
 
-        Db::updateDelete("
-            DELETE FROM $this->name
-            WHERE $where[0]=?
-        ", [$where[1]]);
+            $predicateString = "WHERE ";
+            $first = array_shift($where);
+
+            $predicateString .= "$first[0]=$first[1] ";
+            $values = [ $first[1] ];
+
+            foreach ($where as $predicate) {
+                $predicateString .= "AND $predicate[0]=$predicate[1]";
+                array_push($values, $predicate[1]);
+            }
+
+            Db::updateDelete("
+                DELETE FROM $this->name
+                $predicateString
+            ", $values);
+
+        } else {
+            Db::updateDelete("
+                DELETE FROM $this->name
+                WHERE $where[0]=?
+            ", [$where[1]]);
+        }
 
     }
 

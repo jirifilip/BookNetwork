@@ -59,7 +59,7 @@ class Router {
         self::push($url, "$controller@edit", $customParams, "POST", $key);
 
         $key = array_key_exists("destroy", $customTitles)? $customTitles['destroy'] : "destroy";
-        self::push($url, "$controller@destroy", $customParams, "POST", $key);
+        self::push($url, "$controller@destroy", [], "POST", $key);
     }
 
     public static function run() {

@@ -29,6 +29,7 @@ abstract class Controller {
     public function run($action) {
         $guardData = [
             "action" => $action,
+            "params" => $this->params
         ];
 
         $guardReturn = $this->resolveGuard($guardData);
@@ -42,7 +43,11 @@ abstract class Controller {
         };
 
         if ($canGo && method_exists($this, $action)) {
-            $this->$action();
+            if ($action == "error") {
+                $this->$action($guardData);
+            } else {
+                $this->$action();
+            }
         }
         else {
             # KDYŽ BUDU HLEDAT CHYBU SE ZOBRAZOVÁNÍM CHYB
